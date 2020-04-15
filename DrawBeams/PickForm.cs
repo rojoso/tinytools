@@ -49,13 +49,14 @@ namespace DrawBeams
 
         private void PickForm_Load(object sender, EventArgs e)
         {
-            executeEvent = new ExecuteEvent(2,5);
-            eventHandler = ExternalEvent.Create(executeEvent);
 
+            executeEvent = new ExecuteEvent(this);
+            eventHandler = ExternalEvent.Create(executeEvent);
         }
 
         private void bt_Commit_Click(object sender, EventArgs e)
         {
+           
             eventHandler.Raise();
             TaskDialog.Show("ss", eventHandler.IsPending.ToString());
         }

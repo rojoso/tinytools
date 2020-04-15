@@ -35,7 +35,7 @@ namespace DrawBeams
             var reference_curve = selection.PickObject(ObjectType.Element, "请选择模型线");
             ModelCurve elem_curve = doc.GetElement(reference_curve) as ModelCurve;
 
-            pModel.curve_id = elem_curve.GeometryCurve;
+            pModel.curve_id = elem_curve.Id;
         }
 
         public void PickModelFloor()
@@ -46,73 +46,69 @@ namespace DrawBeams
             var reference_floor = selection.PickObject(ObjectType.PointOnElement, new FloorFaceFilter(doc), "请选择楼板");
             Element elem_floor = doc.GetElement(reference_floor);
             Floor thefloor = elem_floor as Floor;
-            pModel.floor = thefloor;
+            pModel.floor_id = thefloor.Id;
         }
     }
 
     public class ExecuteEvent : IExternalEventHandler
     {
-        private int thecurve;
-        private int thefloor;
+        PickForm pForm;
 
-        public ExecuteEvent(int curve, int floor)
+        public ExecuteEvent(PickForm _pform)
         {
-            thecurve = curve;
-            thefloor = floor;
+            pForm = _pform;
         }
 
         public ExecuteEvent()
         {
-            thecurve = 0;
-            thefloor = 0;
+            
         }
 
         public void Execute(UIApplication app)
         {
             Document doc = app.ActiveUIDocument.Document;
-            
 
             //拿到第一种梁类型
-            //FilteredElementCollector collector = new FilteredElementCollector(doc);
-            //collector.OfCategory(BuiltInCategory.OST_StructuralFraming);
-            //FamilySymbol familySymbol = null;
-            //foreach (var item in collector)
-            //{
-            //    familySymbol = item as FamilySymbol;
-            //    if (familySymbol != null)
-            //        break;
-            //}
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_StructuralFraming);
+            FamilySymbol familySymbol = null;
+            foreach (var item in collector)
+            {
+                familySymbol = item as FamilySymbol;
+                if (familySymbol != null)
+                    break;
+            }
 
-            ////拿到当前的标高
-            //ElementId level_id = thefloor.get_Parameter(BuiltInParameter.SCHEDULE_LEVEL_PARAM).AsElementId();
+            //拿到当前的标高
+            ElementId level_id = thefloor.get_Parameter(BuiltInParameter.SCHEDULE_LEVEL_PARAM).AsElementId();
 
-            //Level level = doc.GetElement(level_id) as Level;
-            //if (level == null)
-            //{
-            //    TaskDialog.Show("错误", "不是PlainView");
+            Level level = doc.GetElement(level_id) as Level;
+            if (level == null)
+            {
+                TaskDialog.Show("错误", "不是PlainView");
 
-            //}
+            }
 
-            ////拿到模型线到楼板的投影线
-            //Curve curve_projection = FindFloorcurve(thecurve, thefloor);
+            //拿到模型线到楼板的投影线
+            Curve curve_projection = FindFloorcurve(thecurve, thefloor);
+            ElementId eleid = pForm.Controllor.pModel.curve_id;
+            TaskDialog.Show("ss", "成功点击了提交按钮"+ eleid.ToString());
 
-            TaskDialog.Show("ss", "成功点击了提交按钮"+thefloor.ToString());
-
-            ////创建梁
-            //using (Transaction tr = new Transaction(doc))
-            //{
-            //    tr.Start("Create beam");
-            //    if (!familySymbol.IsActive)
-            //        familySymbol.Activate();
-            //    doc.Create.NewFamilyInstance(curve_projection, familySymbol, level, Autodesk.Revit.DB.Structure.StructuralType.Beam);
-            //    tr.Commit();
-            //}
+            //创建梁
+            using (Transaction tr = new Transaction(doc))
+            {
+                tr.Start("Create beam");
+                if (!familySymbol.IsActive)
+                    familySymbol.Activate();
+                doc.Create.NewFamilyInstance(curve_projection, familySymbol, level, Autodesk.Revit.DB.Structure.StructuralType.Beam);
+                tr.Commit();
+            }
 
         }
 
         public string GetName()
         {
-            return "这是一个测试";
+            return "这是一个创建斜梁的操作";
         }
 
         /// <summary>

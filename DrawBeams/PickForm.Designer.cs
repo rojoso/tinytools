@@ -91,6 +91,7 @@
             this.Controls.Add(this.bt_pickcurve);
             this.Name = "PickForm";
             this.Text = "PickForm";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.PickForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

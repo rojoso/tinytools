@@ -75,9 +75,7 @@ namespace DrawBeams
             controllor.pView.Show();
             return Result.Succeeded;
 
-
         }
 
-        
     }
 }

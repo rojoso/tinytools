@@ -32,15 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\C\revit2016\Revit 2016\RevitAPI.dll</HintPath>
+      <HintPath>C:\软件安装位置\revit2016\Revit 2016\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIIFC">
-      <HintPath>..\..\..\..\..\C\revit2016\Revit 2016\RevitAPIIFC.dll</HintPath>
+      <HintPath>C:\软件安装位置\revit2016\Revit 2016\RevitAPIIFC.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\C\revit2016\Revit 2016\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\软件安装位置\revit2016\Revit 2016\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

@@ -6,3 +6,11 @@ D:\A\工作文件\revit开发项目\tinyTools\DrawBeams\obj\Debug\DrawBeams.dll
 D:\A\工作文件\revit开发项目\tinyTools\DrawBeams\obj\Debug\DrawBeams.pdb
 D:\A\工作文件\revit开发项目\tinyTools\DrawBeams\obj\Debug\DrawBeams.PickForm.resources
 D:\A\工作文件\revit开发项目\tinyTools\DrawBeams\obj\Debug\DrawBeams.csproj.GenerateResource.cache
+D:\gitrepoprojects\tinytools\DrawBeams\bin\Debug\DrawBeams.dll
+D:\gitrepoprojects\tinytools\DrawBeams\bin\Debug\DrawBeams.pdb
+D:\gitrepoprojects\tinytools\DrawBeams\obj\Debug\DrawBeams.csprojAssemblyReference.cache
+D:\gitrepoprojects\tinytools\DrawBeams\obj\Debug\DrawBeams.PickForm.resources
+D:\gitrepoprojects\tinytools\DrawBeams\obj\Debug\DrawBeams.csproj.GenerateResource.cache
+D:\gitrepoprojects\tinytools\DrawBeams\obj\Debug\DrawBeams.csproj.CoreCompileInputs.cache
+D:\gitrepoprojects\tinytools\DrawBeams\obj\Debug\DrawBeams.dll
+D:\gitrepoprojects\tinytools\DrawBeams\obj\Debug\DrawBeams.pdb
