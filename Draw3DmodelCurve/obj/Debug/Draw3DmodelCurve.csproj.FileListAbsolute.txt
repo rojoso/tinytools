@@ -1,0 +1,6 @@
+D:\A\工作文件\revit开发项目\tinyTools\Draw3DmodelCurve\obj\Debug\Draw3DmodelCurve.csprojAssemblyReference.cache
+D:\A\工作文件\revit开发项目\tinyTools\Draw3DmodelCurve\obj\Debug\Draw3DmodelCurve.csproj.CoreCompileInputs.cache
+D:\A\工作文件\revit开发项目\tinyTools\Draw3DmodelCurve\bin\Debug\Draw3DmodelCurve.dll
+D:\A\工作文件\revit开发项目\tinyTools\Draw3DmodelCurve\bin\Debug\Draw3DmodelCurve.pdb
+D:\A\工作文件\revit开发项目\tinyTools\Draw3DmodelCurve\obj\Debug\Draw3DmodelCurve.dll
+D:\A\工作文件\revit开发项目\tinyTools\Draw3DmodelCurve\obj\Debug\Draw3DmodelCurve.pdb
