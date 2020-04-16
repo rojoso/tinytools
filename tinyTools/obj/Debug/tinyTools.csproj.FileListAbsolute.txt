@@ -6,3 +6,9 @@ D:\A\工作文件\revit开发项目\tinyTools\tinyTools\obj\Debug\tinyTools.cspr
 D:\A\工作文件\revit开发项目\tinyTools\tinyTools\obj\Debug\tinyTools.csproj.CoreCompileInputs.cache
 D:\A\工作文件\revit开发项目\tinyTools\tinyTools\obj\Debug\tinyTools.dll
 D:\A\工作文件\revit开发项目\tinyTools\tinyTools\obj\Debug\tinyTools.pdb
+D:\gitrepoprojects\tinytools\tinyTools\bin\Debug\tinyTools.dll
+D:\gitrepoprojects\tinytools\tinyTools\bin\Debug\tinyTools.pdb
+D:\gitrepoprojects\tinytools\tinyTools\obj\Debug\tinyTools.csprojAssemblyReference.cache
+D:\gitrepoprojects\tinytools\tinyTools\obj\Debug\tinyTools.csproj.CoreCompileInputs.cache
+D:\gitrepoprojects\tinytools\tinyTools\obj\Debug\tinyTools.dll
+D:\gitrepoprojects\tinytools\tinyTools\obj\Debug\tinyTools.pdb

@@ -43,6 +43,21 @@ namespace DrawBeams
 
     }
 
+    public class ModelcurveFilter : ISelectionFilter
+    {
+
+
+        public bool AllowElement(Element elem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AllowReference(Reference reference, XYZ position)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class FloorFaceFilter : ISelectionFilter
     {
         // Revit document.

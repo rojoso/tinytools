@@ -25,24 +25,65 @@ namespace Draw3DmodelCurve
             XYZ point2 = new XYZ(3500, 3800, 1500);
             Curve curve = Line.CreateBound(point1, point2);
 
-            XYZ point_in_3d;
+            XYZ point_in_3d_start;
+            XYZ point_in_3d_end;
 
-            if (SetWorkPlaneAndPickObject(uidoc, out point_in_3d))
+            //拾取第一个点
+            if (SetWorkPlaneAndPickObject(uidoc, out point_in_3d_start))
             {
                 TaskDialog.Show("3D Point Selected",
                     "3D point picked on the plane"
                     + " defined by the selected face: "
-                    + "X: " + point_in_3d.X.ToString()
-                    + ", Y: " + point_in_3d.Y.ToString()
-                    + ", Z: " + point_in_3d.Z.ToString());
+                    + "X: " + point_in_3d_start.X.ToString()
+                    + ", Y: " + point_in_3d_start.Y.ToString()
+                    + ", Z: " + point_in_3d_start.Z.ToString());
 
-                return Result.Succeeded;
+              
             }
             else
             {
                 message = "3D point selection failed";
                 return Result.Failed;
             }
+
+            //拾取第二个点
+            if (SetWorkPlaneAndPickObject(uidoc, out point_in_3d_end))
+            {
+                TaskDialog.Show("3D Point Selected",
+                    "3D point picked on the plane"
+                    + " defined by the selected face: "
+                    + "X: " + point_in_3d_end.X.ToString()
+                    + ", Y: " + point_in_3d_end.Y.ToString()
+                    + ", Z: " + point_in_3d_end.Z.ToString());
+
+                
+            }
+            else
+            {
+                message = "3D point selection failed";
+                return Result.Failed;
+            }
+
+            using (Transaction trans1 = new Transaction(doc))
+            {
+                trans1.Start("开始绘制三维线段");
+
+                
+                Line curve_3d = Line.CreateBound(point_in_3d_start, point_in_3d_end);
+
+                XYZ direction = curve_3d.Direction;
+
+                XYZ normal_direc = direction.CrossProduct(XYZ.BasisZ);
+
+                Plane normal_plane = new Plane(normal_direc, point_in_3d_start);
+
+                SketchPlane sketchPlane = SketchPlane.Create(doc, normal_plane);
+                ModelCurve modelCurve = doc.Create.NewModelCurve(curve_3d,sketchPlane);
+                
+                trans1.Commit();
+            }
+
+            return Result.Succeeded;
 
         }
 
@@ -88,11 +129,11 @@ namespace Draw3DmodelCurve
                     // 坐标系差异(transform)来将面的法线向量和面的原点的值转换成基于当前文档坐标系的值。
                     if (null != transform)
                     {
-                        plane = new Plane(transform.OfVector(face.Normal), transform.OfPoint(face.Origin));
+                        plane = new Plane(transform.OfVector(face.FaceNormal), transform.OfPoint(face.Origin));
                     }
                     else
                     {
-                        plane = new Plane(face.Normal, face.Origin);
+                        plane = new Plane(face.FaceNormal, face.Origin);
                     }
 
                     Transaction t = new Transaction(doc);

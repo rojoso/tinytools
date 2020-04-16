@@ -61,12 +61,16 @@ namespace DrawBeams
 
         public ExecuteEvent()
         {
-            
+            pForm = null;
         }
 
         public void Execute(UIApplication app)
         {
             Document doc = app.ActiveUIDocument.Document;
+            ModelCurve modelCurve = doc.GetElement(pForm.Controllor.pModel.curve_id) as ModelCurve;
+            Curve thecurve = modelCurve.GeometryCurve;
+
+            Floor thefloor = doc.GetElement(pForm.Controllor.pModel.floor_id) as Floor;
 
             //拿到第一种梁类型
             FilteredElementCollector collector = new FilteredElementCollector(doc);
@@ -88,19 +92,22 @@ namespace DrawBeams
                 TaskDialog.Show("错误", "不是PlainView");
 
             }
+            ElementId eleid = pForm.Controllor.pModel.curve_id;
+            TaskDialog.Show("ss", "成功点击了提交按钮" + eleid.ToString());
 
             //拿到模型线到楼板的投影线
             Curve curve_projection = FindFloorcurve(thecurve, thefloor);
-            ElementId eleid = pForm.Controllor.pModel.curve_id;
-            TaskDialog.Show("ss", "成功点击了提交按钮"+ eleid.ToString());
+            
 
             //创建梁
             using (Transaction tr = new Transaction(doc))
             {
+                TaskDialog.Show("ss", "正在尝试进行事务处理");
                 tr.Start("Create beam");
                 if (!familySymbol.IsActive)
                     familySymbol.Activate();
                 doc.Create.NewFamilyInstance(curve_projection, familySymbol, level, Autodesk.Revit.DB.Structure.StructuralType.Beam);
+                
                 tr.Commit();
             }
 

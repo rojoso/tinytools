@@ -37,37 +37,7 @@ using Autodesk.Revit.UI.Selection;
 namespace tinyTools
 {
 
-    /// <summary>
-    /// 这个类为了实现双向绑定，实现了相应的接口
-    /// </summary>
-    public class Person:INotifyPropertyChanged
-    {
-        private string _id;
-        public string ID
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                _id = value;
-                OnPropertyChanged("ID");
-            }
-        }
-
-        #region propertyChanged成员
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if(handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
-    }
+    
 
     public class FloorFaceFilter : ISelectionFilter
     {
@@ -108,13 +78,14 @@ namespace tinyTools
 
     public class FloorTools
     {
-        public static double FindFloorslope(Floor floor)
+        public static void FindFloorslope(Floor floor,out double degree,out double thousand)
         {
             var floorgeom = floor.get_Geometry(FloorTools.GetgeometryOptions());
             var geomobj = floorgeom.First<GeometryObject>();
             Solid floorobj = geomobj as Solid;
             double facearea = 0;
-            double angle = 0;
+            double cos_angle = 0;
+            
             PlanarFace pf = null;
             foreach(Face face in floorobj.Faces)
             {
@@ -122,12 +93,14 @@ namespace tinyTools
                 if(pf.Area > facearea && pf.FaceNormal.Z >= 0)
                 {
                     facearea = pf.Area;
-                    double cos_angle = pf.FaceNormal.Z/Math.Sqrt(Math.Pow(pf.FaceNormal.X,2)+ Math.Pow(pf.FaceNormal.Y, 2)+ Math.Pow(pf.FaceNormal.Z, 2));
-                    angle = Math.Acos(cos_angle)/Math.PI*180;
+                    cos_angle = pf.FaceNormal.Z/Math.Sqrt(Math.Pow(pf.FaceNormal.X,2)+ Math.Pow(pf.FaceNormal.Y, 2)+ Math.Pow(pf.FaceNormal.Z, 2));
+                    
                 }
             }
-            return angle;
-            
+            double angle_degree = Math.Round(Math.Acos(cos_angle) / Math.PI * 180, 3);
+            double angle_thousand = Math.Tan(Math.Acos(cos_angle)) * 1000;
+            degree = Math.Round( angle_degree,4);
+            thousand = Math.Round( angle_thousand,3);
 
         }
 

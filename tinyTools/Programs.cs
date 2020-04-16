@@ -21,6 +21,9 @@ namespace tinyTools
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Selection selection = uidoc.Selection;
 
+            double angle_degree = 0;
+            double angle_thousand = 0;
+
             if(selection.GetElementIds().Count() != 1)
             {
                 //selection.Dispose();
@@ -29,9 +32,9 @@ namespace tinyTools
                 Element elem = doc.GetElement(reference);
                 if(elem != null)
                 {
-                    TaskDialog.Show("报告楼板坡度", "板的坡度为"+ elem.get_Parameter(BuiltInParameter.ROOF_SLOPE).AsDouble().ToString());
 
-                    TaskDialog.Show("计算角度", FloorTools.FindFloorslope(elem as Floor).ToString());
+                    FloorTools.FindFloorslope(elem as Floor, out angle_degree, out angle_thousand);
+                    TaskDialog.Show("报告楼板坡度","楼板角度为"+angle_degree.ToString()+ "°"+"," +"坡度为"+angle_thousand.ToString() + "/1000" );
                     
                     return Result.Succeeded;
                 }
@@ -46,7 +49,8 @@ namespace tinyTools
                 Element elem1 = doc.GetElement(id);
                 if (elem1 is Floor)
                 {
-                    TaskDialog.Show("报告楼板坡度", "板的坡度为"+ elem1.get_Parameter(BuiltInParameter.ROOF_SLOPE).AsDouble().ToString());
+                    FloorTools.FindFloorslope(elem1 as Floor, out angle_degree, out angle_thousand);
+                    TaskDialog.Show("报告楼板坡度", "楼板角度为" + angle_degree.ToString() + "," + "坡度为" + angle_thousand.ToString());
                     return Result.Succeeded;
                 }
                 else
@@ -55,7 +59,8 @@ namespace tinyTools
                     Element elem2 = doc.GetElement(reference);
                     if (elem2 != null)
                     {
-                        TaskDialog.Show("报告楼板坡度", "板的坡度为" + elem2.get_Parameter(BuiltInParameter.ROOF_SLOPE).AsDouble().ToString());
+                        FloorTools.FindFloorslope(elem2 as Floor, out angle_degree, out angle_thousand);
+                        TaskDialog.Show("报告楼板坡度", "楼板角度为" + angle_degree.ToString() + "," + "坡度为" + angle_thousand.ToString());
                         return Result.Succeeded;
                     }
                     else
