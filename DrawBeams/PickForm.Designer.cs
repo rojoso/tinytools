@@ -34,7 +34,8 @@
             this.tbox_floor = new System.Windows.Forms.TextBox();
             this.bt_Commit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbox_Beamsymbols = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bt_pickcurve
@@ -90,20 +91,31 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "梁的族类型";
             // 
-            // comboBox1
+            // cbox_Beamsymbols
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(255, 160);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 23);
-            this.comboBox1.TabIndex = 6;
+            this.cbox_Beamsymbols.FormattingEnabled = true;
+            this.cbox_Beamsymbols.Location = new System.Drawing.Point(255, 160);
+            this.cbox_Beamsymbols.Name = "cbox_Beamsymbols";
+            this.cbox_Beamsymbols.Size = new System.Drawing.Size(192, 23);
+            this.cbox_Beamsymbols.TabIndex = 6;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(416, 43);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "拾取面";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // PickForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 285);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cbox_Beamsymbols);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.bt_Commit);
             this.Controls.Add(this.tbox_floor);
@@ -127,6 +139,7 @@
         private System.Windows.Forms.TextBox tbox_floor;
         private System.Windows.Forms.Button bt_Commit;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.ComboBox cbox_Beamsymbols;
     }
 }

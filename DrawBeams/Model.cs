@@ -41,6 +41,32 @@ namespace DrawBeams
             }
         }
 
+        private List<string> beamSymbolsName;
+        public List<string> BeamSymbolsName
+        {
+            get
+            {
+                return beamSymbolsName;
+            }
+            set
+            {
+                beamSymbolsName = value;
+            }
+        }
+
+        private List<FamilySymbol> beamSymbols;
+        public List<FamilySymbol> BeamSymbols
+        {
+            get
+            {
+                return beamSymbols;
+            }
+            set
+            {
+                beamSymbols = value;
+            }
+        }
+
     }
 
     public class ModelcurveFilter : ISelectionFilter
@@ -49,7 +75,7 @@ namespace DrawBeams
 
         public bool AllowElement(Element elem)
         {
-            throw new NotImplementedException();
+            return elem is ModelCurve;
         }
 
         public bool AllowReference(Reference reference, XYZ position)
@@ -58,6 +84,9 @@ namespace DrawBeams
         }
     }
 
+    /// <summary>
+    /// 拾取楼板过滤器
+    /// </summary>
     public class FloorFaceFilter : ISelectionFilter
     {
         // Revit document.
@@ -92,6 +121,19 @@ namespace DrawBeams
         {
             GeometryObject geoObject = m_doc.GetElement(refer).GetGeometryObjectFromReference(refer);
             return geoObject != null && geoObject is Face;
+        }
+    }
+
+    public class FaceFloorFilters : ISelectionFilter
+    {
+        public bool AllowElement(Element elem)
+        {
+            return elem is Floor;
+        }
+
+        public bool AllowReference(Reference reference, XYZ position)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -39,12 +39,35 @@ namespace DrawBeams
 
         private void bt_pickcurve_Click(object sender, EventArgs e)
         {
-            Controllor.PickModelCurve();
+            try
+            {
+                Controllor.PickModelCurve();
+            }
+            catch (Autodesk.Revit.Exceptions.OperationCanceledException appe)
+            {
+
+            }
+            catch(Autodesk.Revit.Exceptions.InvalidOperationException)
+            {
+
+            }
+            
         }
 
         private void bt_floor_Click(object sender, EventArgs e)
         {
-            Controllor.PickModelFloor();
+            try
+            {
+                Controllor.PickModelFloor();
+            }
+            catch(Autodesk.Revit.Exceptions.OperationCanceledException appe)
+            {
+                
+            }
+            catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+            {
+
+            }
         }
 
         private void PickForm_Load(object sender, EventArgs e)
@@ -52,6 +75,9 @@ namespace DrawBeams
 
             executeEvent = new ExecuteEvent(this);
             eventHandler = ExternalEvent.Create(executeEvent);
+
+            //绑定combo中的数据源
+            cbox_Beamsymbols.DataSource = Controllor.pModel.BeamSymbolsName;
         }
 
         private void bt_Commit_Click(object sender, EventArgs e)
@@ -59,6 +85,11 @@ namespace DrawBeams
            
             eventHandler.Raise();
             TaskDialog.Show("ss", eventHandler.IsPending.ToString());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Controllor.PickModelFace();
         }
     }
 }

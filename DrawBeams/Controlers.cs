@@ -20,10 +20,34 @@ namespace DrawBeams
 
         public Controlers(PickForm pView, ExternalCommandData _commandData)
         {
-            pModel = new Model() { curve_id = null,floor_id = null };
+            pModel = new Model() ;
             this.pView = pView;
             this.pView.Controllor = this;
             commandData = _commandData;
+
+            //对pModel中的成员进行初始化
+            pModel.curve_id = null;
+            pModel.floor_id = null;
+
+            //在模型中生成用于controller的模型参数
+            Document doc = _commandData.Application.ActiveUIDocument.Document;
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_StructuralFraming);
+            pModel.BeamSymbolsName = new List<string>();
+            pModel.BeamSymbols = new List<FamilySymbol>();
+            FamilySymbol familySymbol = null;
+            foreach (var item in collector)
+            {
+                familySymbol = item as FamilySymbol;
+                if(familySymbol != null)
+                {
+                    pModel.BeamSymbolsName.Add(familySymbol.Name.ToString());
+                    //族本身加入到相应的文件中
+                    pModel.BeamSymbols.Add(familySymbol);
+                }
+                
+            }
+
         }
 
         public void PickModelCurve()
@@ -31,11 +55,23 @@ namespace DrawBeams
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Selection selection = uidoc.Selection;
+            Reference reference_curve = null;
             //选择模型线
-            var reference_curve = selection.PickObject(ObjectType.Element, "请选择模型线");
-            ModelCurve elem_curve = doc.GetElement(reference_curve) as ModelCurve;
+            
+            reference_curve = selection.PickObject(ObjectType.Element, new ModelcurveFilter(), "请选择模型线");
+            
+            
+            if(reference_curve == null)
+            {
 
-            pModel.curve_id = elem_curve.Id;
+            }
+            else
+            {
+                ModelCurve elem_curve = doc.GetElement(reference_curve) as ModelCurve;
+
+                pModel.curve_id = elem_curve.Id;
+            }
+            
         }
 
         public void PickModelFloor()
@@ -43,10 +79,28 @@ namespace DrawBeams
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Selection selection = uidoc.Selection;
+            
             var reference_floor = selection.PickObject(ObjectType.PointOnElement, new FloorFaceFilter(doc), "请选择楼板");
-            Element elem_floor = doc.GetElement(reference_floor);
-            Floor thefloor = elem_floor as Floor;
-            pModel.floor_id = thefloor.Id;
+            if(reference_floor == null)
+            {
+
+            }
+            else
+            {
+                Element elem_floor = doc.GetElement(reference_floor);
+                Floor thefloor = elem_floor as Floor;
+                pModel.floor_id = thefloor.Id;
+            }
+            
+        }
+
+        public void PickModelFace()
+        {
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Selection selection = uidoc.Selection;
+            var reference = selection.PickObject(ObjectType.Face,new FaceFloorFilters(), "请选择某一个面");
+            TaskDialog.Show("ss", reference.ElementId.ToString()); 
         }
     }
 
@@ -73,15 +127,10 @@ namespace DrawBeams
             Floor thefloor = doc.GetElement(pForm.Controllor.pModel.floor_id) as Floor;
 
             //拿到第一种梁类型
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_StructuralFraming);
+            
             FamilySymbol familySymbol = null;
-            foreach (var item in collector)
-            {
-                familySymbol = item as FamilySymbol;
-                if (familySymbol != null)
-                    break;
-            }
+            familySymbol = pForm.Controllor.pModel.BeamSymbols[pForm.cbox_Beamsymbols.SelectedIndex];
+           
 
             //拿到当前的标高
             ElementId level_id = thefloor.get_Parameter(BuiltInParameter.SCHEDULE_LEVEL_PARAM).AsElementId();
@@ -104,6 +153,10 @@ namespace DrawBeams
             {
                 TaskDialog.Show("ss", "正在尝试进行事务处理");
                 tr.Start("Create beam");
+                if(familySymbol == null)
+                {
+                    tr.Commit();
+                }
                 if (!familySymbol.IsActive)
                     familySymbol.Activate();
                 doc.Create.NewFamilyInstance(curve_projection, familySymbol, level, Autodesk.Revit.DB.Structure.StructuralType.Beam);
@@ -145,6 +198,12 @@ namespace DrawBeams
             return retProjectedPoint;
         }
 
+        /// <summary>
+        /// 拿到一条线到一个楼板上的投影，此处针对的是某一个楼板 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="floor"></param>
+        /// <returns></returns>
         public Curve FindFloorcurve(Curve line, Floor floor)
         {
             var floorgeom = floor.get_Geometry(GetgeometryOptions());
@@ -172,8 +231,6 @@ namespace DrawBeams
             Curve curve = Line.CreateBound(point_start, point_end);
 
             return curve;
-
-
         }
 
         public Options GetgeometryOptions()
@@ -183,6 +240,22 @@ namespace DrawBeams
             option.DetailLevel = ViewDetailLevel.Coarse;
             return option;
 
+        }
+
+        /// <summary>
+        /// 拿到一条线投影到一个面上面
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="face_refer"></param>
+        /// <returns></returns>
+        public Curve FindFacecurve(Curve line, PlanarFace face)
+        {
+ 
+            XYZ point_start = face.Project(line.GetEndPoint(0)).XYZPoint;
+            XYZ point_end = face.Project(line.GetEndPoint(1)).XYZPoint;
+            Curve curve = Line.CreateBound(point_start, point_end);
+
+            return curve;
         }
     }
 }
