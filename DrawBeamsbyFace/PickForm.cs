@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 
-namespace DrawBeams
+namespace DrawBeamsbyFace
 {
     public partial class PickForm : System.Windows.Forms.Form
     {
@@ -28,12 +28,13 @@ namespace DrawBeams
             set
             {
                 this._controllor = value;
-                
+
             }
         }
 
         public PickForm()
         {
+
             InitializeComponent();
         }
 
@@ -47,46 +48,29 @@ namespace DrawBeams
             {
 
             }
-            catch(Autodesk.Revit.Exceptions.InvalidOperationException)
-            {
-
-            }
-            
-        }
-
-        private void bt_floor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Controllor.PickModelFloor();
-            }
-            catch(Autodesk.Revit.Exceptions.OperationCanceledException appe)
-            {
-                
-            }
             catch (Autodesk.Revit.Exceptions.InvalidOperationException)
             {
 
             }
         }
 
-        private void PickForm_Load(object sender, EventArgs e)
+        private void bt_pickface_Click(object sender, EventArgs e)
+        {
+            Controllor.PickModelFace();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void PickForm_Load(object sender, EventArgs e)
+        {
             executeEvent = new ExecuteEvent(this);
             eventHandler = ExternalEvent.Create(executeEvent);
 
             //绑定combo中的数据源
             cbox_Beamsymbols.DataSource = Controllor.pModel.BeamSymbolsName;
         }
-
-        private void bt_Commit_Click(object sender, EventArgs e)
-        {
-           
-            eventHandler.Raise();
-            TaskDialog.Show("ss", eventHandler.IsPending.ToString());
-        }
-
-        
     }
 }
