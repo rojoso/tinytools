@@ -1,0 +1,8 @@
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\bin\Debug\DrawBeamsbyFace.dll
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\bin\Debug\DrawBeamsbyFace.pdb
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\obj\Debug\DrawBeamsbyFace.csprojAssemblyReference.cache
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\obj\Debug\DrawBeamsbyFace.PickForm.resources
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\obj\Debug\DrawBeamsbyFace.csproj.GenerateResource.cache
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\obj\Debug\DrawBeamsbyFace.csproj.CoreCompileInputs.cache
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\obj\Debug\DrawBeamsbyFace.dll
+D:\gitrepoprojects\tinytools\DrawBeamsbyFace\obj\Debug\DrawBeamsbyFace.pdb

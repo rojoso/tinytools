@@ -43,7 +43,7 @@ namespace DrawBeamsbyFace
             }
         }
 
-        //存储相应的面ID
+        //存储相应的面
         private Reference _face_reference;
         public Reference face_reference
         {

@@ -31,12 +31,12 @@ namespace DrawBeamsbyFace
             
             //在模型中生成用于controller的模型参数
             Document doc = _commandData.Application.ActiveUIDocument.Document;
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_StructuralFraming);
+            FilteredElementCollector collector_beams = new FilteredElementCollector(doc);
+            collector_beams.OfCategory(BuiltInCategory.OST_StructuralFraming);
             pModel.BeamSymbolsName = new List<string>();
             pModel.BeamSymbols = new List<FamilySymbol>();
             FamilySymbol familySymbol = null;
-            foreach (var item in collector)
+            foreach (var item in collector_beams)
             {
                 familySymbol = item as FamilySymbol;
                 if (familySymbol != null)
@@ -48,16 +48,21 @@ namespace DrawBeamsbyFace
 
             }
 
-            collector.OfClass(typeof(Level));
+            //初始化当前标高系统，并将标高初始化到Model中
+
+            FilteredElementCollector collector_levels = new FilteredElementCollector(doc);
+
+            collector_levels.OfClass(typeof(Level));
             pModel.levelsName = new List<string>();
             pModel.levels = new List<Level>();
             Level thelevel = null;
-            foreach(var item in collector)
+            foreach(var item in collector_levels)
             {
                 thelevel = item as Level;
                 if(thelevel != null)
                 {
                     pModel.levelsName.Add(thelevel.Name);
+                    //标高本身加入到列表当中
                     pModel.levels.Add(thelevel);
                 }
             }
@@ -114,7 +119,8 @@ namespace DrawBeamsbyFace
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Selection selection = uidoc.Selection;
             var reference = selection.PickObject(ObjectType.Face, new FaceFloorFilters(doc), "请选择某一个楼板的面");
-            pModel.face_reference = reference as Reference;
+            pModel.face_reference = reference;
+            
         }
     }
 
@@ -136,30 +142,29 @@ namespace DrawBeamsbyFace
         {
             Document doc = app.ActiveUIDocument.Document;
             ModelCurve modelCurve = doc.GetElement(pForm.Controllor.pModel.curve_id) as ModelCurve;
+
+            //拿到用户画的线段
             Curve thecurve = modelCurve.GeometryCurve;
 
-            Floor thefloor = doc.GetElement(pForm.Controllor.pModel.floor_id) as Floor;
 
-            //拿到第一种梁类型
+            //拿到用户选中的梁类型
 
             FamilySymbol familySymbol = null;
             familySymbol = pForm.Controllor.pModel.BeamSymbols[pForm.cbox_Beamsymbols.SelectedIndex];
 
 
-            //拿到当前的标高
-            ElementId level_id = thefloor.get_Parameter(BuiltInParameter.SCHEDULE_LEVEL_PARAM).AsElementId();
-
-            Level level = doc.GetElement(level_id) as Level;
-            if (level == null)
-            {
-                TaskDialog.Show("错误", "不是PlainView");
-
-            }
+            //拿到用户选择的标高
+            Level thepickedlevel = null;
+            thepickedlevel = pForm.Controllor.pModel.levels[pForm.cbox_levels.SelectedIndex];
+           
             ElementId eleid = pForm.Controllor.pModel.curve_id;
             TaskDialog.Show("ss", "成功点击了提交按钮" + eleid.ToString());
-
+            Element ele = doc.GetElement(pForm.Controllor.pModel.face_reference.ElementId);
+            PlanarFace thepickedface = ele.GetGeometryObjectFromReference(pForm.Controllor.pModel.face_reference) as PlanarFace;
+            TaskDialog.Show("ss", thepickedface.ToString());
             //拿到模型线到楼板的投影线
-            Curve curve_projection = FindFloorcurve(thecurve, thefloor);
+            Curve curve_projection = FindFacecurve(thecurve, thepickedface);
+            
 
 
             //创建梁
@@ -173,7 +178,7 @@ namespace DrawBeamsbyFace
                 }
                 if (!familySymbol.IsActive)
                     familySymbol.Activate();
-                doc.Create.NewFamilyInstance(curve_projection, familySymbol, level, Autodesk.Revit.DB.Structure.StructuralType.Beam);
+                doc.Create.NewFamilyInstance(curve_projection, familySymbol, thepickedlevel,    Autodesk.Revit.DB.Structure.StructuralType.Beam);
 
                 tr.Commit();
             }
@@ -264,11 +269,25 @@ namespace DrawBeamsbyFace
         /// <returns></returns>
         public Curve FindFacecurve(Curve line, PlanarFace face)
         {
-            
-            XYZ point_start = face.Project(line.GetEndPoint(0)).XYZPoint;
-            XYZ point_end = face.Project(line.GetEndPoint(1)).XYZPoint;
-            Curve curve = Line.CreateBound(point_start, point_end);
+            TaskDialog.Show("ss", "已经在函数里面了");
+            EdgeArrayArray edgeArrays = face.EdgeLoops;
+            List<XYZ> facepoints = new List<XYZ>();
+            foreach (EdgeArray edges in edgeArrays)
+            {
+                foreach (Edge edge in edges)
+                {
+                    // Get one test point
+                    facepoints.Add(edge.Evaluate(0));
 
+                }
+            }
+
+
+            XYZ point_start = Project(facepoints, line.GetEndPoint(0));
+            
+            XYZ point_end = Project(facepoints, line.GetEndPoint(1));
+            Curve curve = Line.CreateBound(point_start, point_end);
+            
             return curve;
         }
     }

@@ -61,7 +61,7 @@ namespace DrawBeamsbyFace
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            eventHandler.Raise();
         }
 
         private void PickForm_Load(object sender, EventArgs e)
@@ -71,6 +71,7 @@ namespace DrawBeamsbyFace
 
             //绑定combo中的数据源
             cbox_Beamsymbols.DataSource = Controllor.pModel.BeamSymbolsName;
+            cbox_levels.DataSource = Controllor.pModel.levelsName;
         }
     }
 }

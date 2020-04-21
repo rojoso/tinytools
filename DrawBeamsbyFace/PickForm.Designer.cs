@@ -115,6 +115,7 @@
             this.Controls.Add(this.bt_pickcurve);
             this.Name = "PickForm";
             this.Text = "面投影-绘制梁";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.PickForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -129,6 +130,6 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.ComboBox cbox_Beamsymbols;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbox_levels;
+        public System.Windows.Forms.ComboBox cbox_levels;
     }
 }
