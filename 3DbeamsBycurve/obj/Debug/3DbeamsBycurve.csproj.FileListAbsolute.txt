@@ -1,0 +1,8 @@
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\bin\Debug\3DbeamsBycurve.dll
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\bin\Debug\3DbeamsBycurve.pdb
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\obj\Debug\3DbeamsBycurve.csprojAssemblyReference.cache
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\obj\Debug\_3DbeamsBycurve.ChsForm.resources
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\obj\Debug\3DbeamsBycurve.csproj.GenerateResource.cache
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\obj\Debug\3DbeamsBycurve.csproj.CoreCompileInputs.cache
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\obj\Debug\3DbeamsBycurve.dll
+D:\gitrepoprojects\tinytools\3DbeamsBycurve\obj\Debug\3DbeamsBycurve.pdb

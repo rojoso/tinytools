@@ -70,6 +70,7 @@ namespace DrawBeams
                 ModelCurve elem_curve = doc.GetElement(reference_curve) as ModelCurve;
 
                 pModel.curve_id = elem_curve.Id;
+                pView.lbl_modelcurve.Text = elem_curve.Id.IntegerValue.ToString();
             }
             
         }
@@ -90,7 +91,9 @@ namespace DrawBeams
                 Element elem_floor = doc.GetElement(reference_floor);
                 Floor thefloor = elem_floor as Floor;
                 pModel.floor_id = thefloor.Id;
+                pView.lbl_floor.Text = thefloor.Id.IntegerValue.ToString();
             }
+
             
         }
 

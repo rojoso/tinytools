@@ -56,7 +56,18 @@ namespace DrawBeamsbyFace
 
         private void bt_pickface_Click(object sender, EventArgs e)
         {
-            Controllor.PickModelFace();
+            try
+            {
+                Controllor.PickModelFace();
+            }
+            catch (Autodesk.Revit.Exceptions.OperationCanceledException appe)
+            {
+
+            }
+            catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+            {
+
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)

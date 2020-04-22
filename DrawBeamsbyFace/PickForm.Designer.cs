@@ -35,13 +35,15 @@
             this.cbox_Beamsymbols = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cbox_levels = new System.Windows.Forms.ComboBox();
+            this.lbl_modelcurve = new System.Windows.Forms.Label();
+            this.lbl_floorface = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // bt_pickcurve
             // 
             this.bt_pickcurve.Location = new System.Drawing.Point(60, 25);
             this.bt_pickcurve.Name = "bt_pickcurve";
-            this.bt_pickcurve.Size = new System.Drawing.Size(101, 36);
+            this.bt_pickcurve.Size = new System.Drawing.Size(101, 32);
             this.bt_pickcurve.TabIndex = 0;
             this.bt_pickcurve.Text = "拾取模型线";
             this.bt_pickcurve.UseVisualStyleBackColor = true;
@@ -59,7 +61,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(375, 229);
+            this.button3.Location = new System.Drawing.Point(377, 234);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(87, 33);
             this.button3.TabIndex = 2;
@@ -101,11 +103,31 @@
             this.cbox_levels.Size = new System.Drawing.Size(180, 23);
             this.cbox_levels.TabIndex = 6;
             // 
+            // lbl_modelcurve
+            // 
+            this.lbl_modelcurve.AutoSize = true;
+            this.lbl_modelcurve.Location = new System.Drawing.Point(248, 34);
+            this.lbl_modelcurve.Name = "lbl_modelcurve";
+            this.lbl_modelcurve.Size = new System.Drawing.Size(38, 15);
+            this.lbl_modelcurve.TabIndex = 7;
+            this.lbl_modelcurve.Text = "ID值";
+            // 
+            // lbl_floorface
+            // 
+            this.lbl_floorface.AutoSize = true;
+            this.lbl_floorface.Location = new System.Drawing.Point(248, 91);
+            this.lbl_floorface.Name = "lbl_floorface";
+            this.lbl_floorface.Size = new System.Drawing.Size(38, 15);
+            this.lbl_floorface.TabIndex = 8;
+            this.lbl_floorface.Text = "ID值";
+            // 
             // PickForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(485, 286);
+            this.Controls.Add(this.lbl_floorface);
+            this.Controls.Add(this.lbl_modelcurve);
             this.Controls.Add(this.cbox_levels);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbox_Beamsymbols);
@@ -113,6 +135,8 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.bt_pickface);
             this.Controls.Add(this.bt_pickcurve);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PickForm";
             this.Text = "面投影-绘制梁";
             this.TopMost = true;
@@ -131,5 +155,7 @@
         public System.Windows.Forms.ComboBox cbox_Beamsymbols;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox cbox_levels;
+        public System.Windows.Forms.Label lbl_modelcurve;
+        public System.Windows.Forms.Label lbl_floorface;
     }
 }
